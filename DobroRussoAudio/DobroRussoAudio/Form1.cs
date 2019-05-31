@@ -11,11 +11,23 @@ namespace DobroRussoAudio
 {
     public partial class RegistrationForm : Form
     {
+        private List<TextBox> textBoxes;
+
         public RegistrationForm()
         {
             InitializeComponent();
+            textBoxes = this.GetTextBoxes();
         }
-
+        private  List<TextBox> GetTextBoxes ()
+        {
+            return new List<TextBox>()
+            {
+                textBox1,
+                textBox2,
+                textBox3,
+                textBox4
+            };
+        }
         private void textBox3_Leave(object sender, EventArgs e)
         {
             if (!textBox3.Text.All(char.IsDigit))
@@ -56,17 +68,11 @@ namespace DobroRussoAudio
         {
             MessageBox.Show("Данные сохранены.");
         }
-        private  bool IsRegistationFormVaild() //TODO: фиксить, сейчас пропускает все элементы и всегда возвращает true что приводит
-            // к включению кнопки "Сохранить параметры" даже если они битые
+        private  bool IsRegistationFormVaild(List<TextBox> texts)
         {
-            foreach (Control control in Controls)
+            foreach(TextBox text in texts)
             {
-                TextBox tb = control as TextBox;
-                if (!(tb is TextBox))
-                {
-                    continue;
-                }
-                if (string.IsNullOrWhiteSpace(tb.Text) || string.IsNullOrEmpty(tb.Text))
+                if (string.IsNullOrEmpty(text.Text) || string.IsNullOrWhiteSpace(text.Text))
                 {
                     return false;
                 }
@@ -76,24 +82,24 @@ namespace DobroRussoAudio
 
         private void TextBox1_Leave(object sender, EventArgs e)
         {
-            SaveSettingButton.Enabled = IsRegistationFormVaild();
+            SaveSettingButton.Enabled = IsRegistationFormVaild(textBoxes);
         }
 
         private void TextBox2_TextChanged(object sender, EventArgs e)
         {
-            SaveSettingButton.Enabled = IsRegistationFormVaild();
+            SaveSettingButton.Enabled = IsRegistationFormVaild(textBoxes);
 
         }
 
         private void TextBox3_TextChanged(object sender, EventArgs e)
         {
-            SaveSettingButton.Enabled = IsRegistationFormVaild();
+            SaveSettingButton.Enabled = IsRegistationFormVaild(textBoxes);
 
         }
 
         private void TextBox4_TextChanged(object sender, EventArgs e)
         {
-            SaveSettingButton.Enabled = IsRegistationFormVaild();
+            SaveSettingButton.Enabled = IsRegistationFormVaild(textBoxes);
 
         }
     }
